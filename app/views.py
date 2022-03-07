@@ -34,7 +34,7 @@ def login():
     if request.method == "POST":
         # change this to actually validate the entire form submission
         # and not just one field
-        if form.username.data:
+        if form.validate_on_submit():
             # Get the username and password values from the form.
             username = form.username.data
             password = form.password.data
@@ -46,7 +46,6 @@ def login():
             # passed to the login_user() method below.
             if user is not None and check_password_hash(user.password, password):
                 remember_me = False
-
                 if 'remember_me' in request.form:
                     remember_me = True
 
@@ -54,7 +53,7 @@ def login():
                 login_user(user)
 
             # remember to flash a message to the user
-            flash('Logged in successfully.', 'success')
+            flash('You are logged in.', 'success')
             return redirect(url_for("home"))  # they should be redirected to a secure-page route instead
     return render_template("login.html", form=form)
 
